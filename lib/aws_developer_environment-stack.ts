@@ -47,35 +47,35 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
     const rubyVersion = new cdk.CfnParameter(this, "RubyVersion", { 
       type: "String", 
       description: "The version of Ruby to install",
-      allowedValues: ['none', '2.7.0'],
+      allowedValues: ['none', '2.7.0', '2.6.5', '2.5.7'],
       default: '2.7.0'
     })
 
     const nodeVersion = new cdk.CfnParameter(this, "NodeVersion", { 
       type: "String", 
       description: "The version of NodeJs to install",
-      allowedValues: ['none', 'v12.15.0'],
+      allowedValues: ['none', 'v12.15.0', 'v10.19.0', 'v8.17.0'],
       default: 'v12.15.0'
     })
 
     const pythonVersion = new cdk.CfnParameter(this, "PythonVersion", { 
       type: "String", 
       description: "The version of Python to install",
-      allowedValues: ['none', '3.7.6'],
+      allowedValues: ['none', '3.7.6', '2.7.17'],
       default: '3.7.6'
     })
 
     const dotnetVersion = new cdk.CfnParameter(this, "DotnetVersion", { 
       type: "String", 
       description: "The version of Dotnet to install",
-      allowedValues: ['none', '3.1'],
+      allowedValues: ['none', '3.1', '3.0', '2.2', '2.1'],
       default: '3.1'
     })
 
     const powershellVersion = new cdk.CfnParameter(this, "PowershellVersion", { 
       type: "String", 
       description: "The version of Dotnet to install",
-      allowedValues: ['none', '6.2.4'],
+      allowedValues: ['none', '6.2.4', '6.1.6'],
       default: '6.2.4'
     })
 
