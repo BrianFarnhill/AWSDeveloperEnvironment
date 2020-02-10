@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node bin/aws_developer_environment.ts"
+}
