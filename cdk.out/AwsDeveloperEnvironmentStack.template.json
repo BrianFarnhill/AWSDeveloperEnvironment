@@ -110,6 +110,22 @@
           }
         ],
         "SecurityGroupIngress": [],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "-Instance"
+                ]
+              ]
+            }
+          }
+        ],
         "VpcId": {
           "Ref": "VPCId"
         }
@@ -120,6 +136,16 @@
     },
     "RepoShare": {
       "Type": "AWS::EFS::FileSystem",
+      "Properties": {
+        "FileSystemTags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ]
+      },
       "Metadata": {
         "aws:cdk:path": "AwsDeveloperEnvironmentStack/RepoShare"
       }
@@ -149,6 +175,22 @@
               ]
             },
             "ToPort": 2049
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "-FileShare"
+                ]
+              ]
+            }
           }
         ],
         "VpcId": {
@@ -578,6 +620,14 @@
         "SubnetId": {
           "Ref": "SubnetId"
         },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ],
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [

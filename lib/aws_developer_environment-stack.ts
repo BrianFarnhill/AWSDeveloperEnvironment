@@ -98,10 +98,17 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
           toPort: -1,
           description: "Allow all egress"
         }
+      ],
+      tags: [
+        {key: 'Name', value: `${cdk.Aws.STACK_NAME}-Instance` }
       ]
     })
 
-    const repoShare = new efs.CfnFileSystem(this, "RepoShare", {})
+    const repoShare = new efs.CfnFileSystem(this, "RepoShare", {
+      fileSystemTags: [
+        {key: 'Name', value: cdk.Aws.STACK_NAME }
+      ]
+    })
     const efsFileShareSG = new ec2.CfnSecurityGroup(this, "efsShareSecurityGroup", {
       groupDescription: "Allow connections to EFS from developer instances",
       vpcId: vpcId.valueAsString,
@@ -120,6 +127,9 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
           toPort: -1,
           description: "Allow all egress"
         }
+      ],
+      tags: [
+        {key: 'Name', value: `${cdk.Aws.STACK_NAME}-FileShare` }
       ]
     })
     new efs.CfnMountTarget(this, "RepoShareTarget", {
@@ -303,7 +313,10 @@ ${efsInstall.getAttString('userData')}
       securityGroupIds: [ devInstanceSG.attrGroupId ],
       keyName: keypair.valueAsString,
       userData: cdk.Fn.base64(userDataFull),
-      iamInstanceProfile: devInstanceProfile.ref
+      iamInstanceProfile: devInstanceProfile.ref,
+      tags: [
+        {key: 'Name', value: cdk.Aws.STACK_NAME }
+      ]
     })
     devInstance.cfnOptions.creationPolicy = {
       resourceSignal: {
