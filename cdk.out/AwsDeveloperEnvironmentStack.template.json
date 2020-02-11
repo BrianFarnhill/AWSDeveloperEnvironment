@@ -1,28 +1,4 @@
 {
-  "Metadata": {
-    "AWS::CloudFormation::Interface": {
-      "ParameterGroups": [
-        {
-          "Label": "EC2 Options",
-          "Parameters": [
-            "VPCId",
-            "SubnetId",
-            "Keyname"
-          ]
-        },
-        {
-          "Label": "Software versions",
-          "Parameters": [
-            "RubyVersion",
-            "NodeVersion",
-            "PythonVersion",
-            "DotnetVersion",
-            "PowershellVersion"
-          ]
-        }
-      ]
-    }
-  },
   "Parameters": {
     "VPCId": {
       "Type": "AWS::EC2::VPC::Id",
@@ -89,6 +65,16 @@
         "6.1.6"
       ],
       "Description": "The version of Dotnet to install"
+    },
+    "InstanceSize": {
+      "Type": "String",
+      "Default": "c5.large",
+      "AllowedValues": [
+        "t3.medium",
+        "c5.large",
+        "c5.xlarge"
+      ],
+      "Description": "The size of the EC2 instance"
     },
     "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664ebsC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
@@ -271,18 +257,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Description": {
-          "Fn::Join": [
-            "",
-            [
-              "Powers off the ",
-              {
-                "Ref": "AWS::StackName"
-              },
-              " developer environment"
-            ]
-          ]
-        },
+        "Description": "Generates sections of user data strings for developer environment builds",
         "MemorySize": 128,
         "Timeout": 6
       },
@@ -605,7 +580,9 @@
         "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664ebsC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
-        "InstanceType": "c5.large",
+        "InstanceType": {
+          "Ref": "InstanceSize"
+        },
         "KeyName": {
           "Ref": "Keyname"
         },

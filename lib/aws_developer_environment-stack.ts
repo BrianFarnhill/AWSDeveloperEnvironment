@@ -15,31 +15,6 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
-    this.templateOptions.metadata = {
-      'AWS::CloudFormation::Interface': {
-        ParameterGroups: [
-          {
-            Label: 'EC2 Options',
-            Parameters: [
-              'VPCId',
-              'SubnetId',
-              'Keyname'
-            ]
-          },
-          {
-            Label: 'Software versions',
-            Parameters: [
-              'RubyVersion',
-              'NodeVersion',
-              'PythonVersion',
-              'DotnetVersion',
-              'PowershellVersion'
-            ]
-          }
-        ]
-      }
-    }
-
     const vpcId = new cdk.CfnParameter(this, "VPCId", { type: "AWS::EC2::VPC::Id", description: "The VPC to deploy this developer instance to" })
     const subnetId = new cdk.CfnParameter(this, "SubnetId", { type: "AWS::EC2::Subnet::Id", description: "The subnet to deploy this developer instance to" })
     const keypair = new cdk.CfnParameter(this, "Keyname", { type: "AWS::EC2::KeyPair::KeyName", description: "The keypair to use to SSH to this instance"})
@@ -77,6 +52,13 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
       description: "The version of Dotnet to install",
       allowedValues: ['none', '6.2.4', '6.1.6'],
       default: '6.2.4'
+    })
+
+    const ec2Size = new cdk.CfnParameter(this, "InstanceSize", { 
+      type: "String", 
+      description: "The size of the EC2 instance",
+      allowedValues: ['t3.medium', 'c5.large', 'c5.xlarge'],
+      default: 'c5.large'
     })
 
     const amazonLinuxImage = new ec2.AmazonLinuxImage({
@@ -147,7 +129,7 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_12_X,
       memorySize: 128,
       timeout: Duration.seconds(6),
-      description: `Powers off the ${cdk.Aws.STACK_NAME} developer environment`
+      description: `Generates sections of user data strings for developer environment builds`
     })
 
     const baseInstall = new cfn.CustomResource(this, `BuildUserData-BaseInstall`, {
@@ -307,7 +289,7 @@ ${efsInstall.getAttString('userData')}
     })
 
     const devInstance = new ec2.CfnInstance(this, "DevInstance", {
-      instanceType: "c5.large",
+      instanceType: ec2Size.valueAsString,
       imageId: amazonLinuxImage.getImage(this).imageId,
       subnetId: subnetId.valueAsString,
       securityGroupIds: [ devInstanceSG.attrGroupId ],
