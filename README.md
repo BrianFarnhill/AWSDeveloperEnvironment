@@ -47,10 +47,14 @@ To add the instance to Visual Studio Code:
 1. Select the "Remote Explorer" tab in Visual Studio Code, and select "SSH targets" from the
    drop down
 2. Choose the "configure" icon and when prompted choose the file you wish to store your SSH
-   configuration in
+   configuration in. In windows this will usually be `C:\Users\username\.ssh\config.` and in
+   linux it will be `~/.ssh/config`.
 3. Add your new server using it's EC2 instance ID. Specify the local path to the key file you
    selected when provisioning the instance. The user name is always `ec2-user`. The Host value
-   can be any user friendly name for the instance that you wish to see in VSCode
+   can be any user friendly name for the instance that you wish to see in VSCode. This is the
+   same process as [connecting to instances through session manager using SSH](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-enable-ssh-connections.html).
+
+__Windows__
 ```
 Host AWSDeveloper
     HostName i-12345678901234567
@@ -58,6 +62,16 @@ Host AWSDeveloper
     User ec2-user
     ProxyCommand C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p"
 ```
+
+__Linux__
+```
+Host AWSDeveloper
+    HostName i-12345678901234567
+    IdentityFile ~/.ssh/YourKeyNameHere.pem
+    User ec2-user
+    ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+```
+
 4. The instance will now appear under the SSH Targets list in Visual Studio Code. Move your
    mouse over your new instance and choose the "Connect to host in new window" option.
 5. A new window will open connecting you to the server. This will take a while longer on the
@@ -72,9 +86,15 @@ programming a script to power on the instance before you connect will ensure it 
 you need it. To run the instance start command, change the ProxyCommand line from above to include
 a call to the start-instances API.
 
+__Windows__
 ```
     ProxyCommand C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "aws ec2 start-instances --instance-ids %h;aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p"
 ```
+__Linux__
+```
+    ProxyCommand sh -c "aws ec2 start-instances --instance-ids %h; aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+```
+
 
 When you attempt a connection while the instance is turned off, you will receive a prompt about the
 server being unavailable. Wait a few moments and select the "retry" button and the window will now
