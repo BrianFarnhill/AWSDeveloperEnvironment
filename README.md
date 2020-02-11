@@ -94,3 +94,13 @@ considered to add additional security to developer environments:
  * Consider the need to add KMS encryptions to the EFS share and EBS volumes of the EC2 instance
  * Consider using a custom AMI that includes hardened configurations for Amazon Linux 2
 
+## What's included in the instance?
+
+The following is a list of items that can be installed in the developer instance:
+
+ * zshell (with oh-my-zshell and additional plug-ins)
+ * Ruby (using rbenv for version management)
+ * NodeJS (using nvm for version management)
+ * Python (using pyenv for version management)
+ * Dotnet core
+ * PowerShell
