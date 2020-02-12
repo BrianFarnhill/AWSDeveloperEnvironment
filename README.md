@@ -40,7 +40,7 @@ aws cloudformation create-stack --stack-name "DevEnvironment3"
                                 --capabilities CAPABILITY_IAM
 ```
 
-## Conneting from Visual Studio Code
+## Connecting from Visual Studio Code
 
 To add the instance to Visual Studio Code:
 
