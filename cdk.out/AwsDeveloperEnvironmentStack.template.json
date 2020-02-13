@@ -878,7 +878,7 @@
         "Namespace": "AWS/EC2",
         "Period": 3600,
         "Statistic": "Sum",
-        "Threshold": 1000000,
+        "Threshold": 1200000,
         "TreatMissingData": "breaching"
       },
       "Metadata": {

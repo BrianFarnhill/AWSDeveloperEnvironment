@@ -337,7 +337,7 @@ ${efsInstall.getAttString('userData')}
       statistic: "Sum",
       comparisonOperator: "LessThanThreshold",
       evaluationPeriods: 1,
-      threshold: 1000000,
+      threshold: 1200000,
       treatMissingData: "breaching",
       dimensions: [{
         name: "InstanceId",
