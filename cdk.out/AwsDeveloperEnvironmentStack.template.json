@@ -290,7 +290,7 @@
               {
                 "Ref": "AWS::Region"
               },
-              "\nEOT"
+              "\nEOT\nsh -c \"$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)\"\necho \"eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" >> /home/ec2-user/.zshrc\n"
             ]
           ]
         }

@@ -170,7 +170,10 @@ plugins=(
 source /home/ec2-user/.oh-my-zsh/oh-my-zsh.sh
 export CDK_DEFAULT_ACCOUNT=${cdk.Aws.ACCOUNT_ID}
 export CDK_DEFAULT_REGION=${cdk.Aws.REGION}
-EOT`
+EOT
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /home/ec2-user/.zshrc
+`
       }
     })
 
