@@ -282,7 +282,7 @@
           "Fn::Join": [
             "",
             [
-              "#!/bin/bash\nyum update -y\nyum install zsh openssl-devel amazon-efs-utils nfs-utils -y\nyum group install \"Development Tools\" -y\ncd /home/ec2-user\nsudo -u ec2-user sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\"\nsudo -u ec2-user git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-/home/ec2-user/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\nsudo -u ec2-user git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-/home/ec2-user/.oh-my-zsh/custom}/plugins/zsh-autosuggestions      \nusermod -s /usr/bin/zsh ec2-user\nrm /home/ec2-user/.zshrc\nsudo -u ec2-user cat <<EOT >> /home/ec2-user/.zshrc\nexport ZSH=\"/home/ec2-user/.oh-my-zsh\"\nZSH_THEME=\"agnoster\"\nplugins=(\n    git\n    aws\n    git-extras\n    pip\n    python\n    zsh-syntax-highlighting\n    encode64\n    jsontools\n    node\n    npm\n    urltools\n    zsh-autosuggestions\n)\nsource /home/ec2-user/.oh-my-zsh/oh-my-zsh.sh\nexport CDK_DEFAULT_ACCOUNT=",
+              "#!/bin/bash\nyum update -y\nyum install zsh openssl-devel amazon-efs-utils nfs-utils -y\nyum group install \"Development Tools\" -y\namazon-linux-extras install docker\nsystemctl enable docker\nservice docker start\nusermod -a -G docker ec2-user\ncd /home/ec2-user\nsudo -u ec2-user sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\"\nsudo -u ec2-user git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-/home/ec2-user/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\nsudo -u ec2-user git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-/home/ec2-user/.oh-my-zsh/custom}/plugins/zsh-autosuggestions      \nusermod -s /usr/bin/zsh ec2-user\nrm /home/ec2-user/.zshrc\nsudo -u ec2-user cat <<EOT >> /home/ec2-user/.zshrc\nexport ZSH=\"/home/ec2-user/.oh-my-zsh\"\nZSH_THEME=\"agnoster\"\nplugins=(\n    git\n    aws\n    git-extras\n    pip\n    python\n    zsh-syntax-highlighting\n    encode64\n    jsontools\n    node\n    npm\n    urltools\n    zsh-autosuggestions\n)\nsource /home/ec2-user/.oh-my-zsh/oh-my-zsh.sh\nexport CDK_DEFAULT_ACCOUNT=",
               {
                 "Ref": "AWS::AccountId"
               },
@@ -667,7 +667,7 @@
                 {
                   "Ref": "AWS::Region"
                 },
-                "\n"
+                "\nreboot\n"
               ]
             ]
           }

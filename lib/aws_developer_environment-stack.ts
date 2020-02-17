@@ -140,6 +140,10 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
 yum update -y
 yum install zsh openssl-devel amazon-efs-utils nfs-utils -y
 yum group install "Development Tools" -y
+amazon-linux-extras install docker
+systemctl enable docker
+service docker start
+usermod -a -G docker ec2-user
 cd /home/ec2-user
 sudo -u ec2-user sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sudo -u ec2-user git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \${ZSH_CUSTOM:-/home/ec2-user/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -268,6 +272,7 @@ ${dotnetInstall.getAttString('userData')}
 ${powershellInstall.getAttString('userData')}
 ${efsInstall.getAttString('userData')}
 /opt/aws/bin/cfn-signal -e $? --stack ${cdk.Aws.STACK_NAME} --resource DevInstance --region ${cdk.Aws.REGION}
+reboot
 `
 
     const devInstanceRole = new iam.Role(this, "DevInstanceRole", {
