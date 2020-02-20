@@ -171,10 +171,10 @@ source /home/ec2-user/.oh-my-zsh/oh-my-zsh.sh
 export CDK_DEFAULT_ACCOUNT=${cdk.Aws.ACCOUNT_ID}
 export CDK_DEFAULT_REGION=${cdk.Aws.REGION}
 EOT
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> /home/ec2-user/.zshrc
-brew tap aws/tap
-brew install aws-sam-cli
+sudo -u ec2-user sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+sudo -u ec2-user echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/ec2-user/.zshrc
+sudo -u ec2-user /home/linuxbrew/.linuxbrew/bin/brew tap aws/tap
+sudo -u ec2-user /home/linuxbrew/.linuxbrew/bin/brew install aws-sam-cli
 `
       }
     })
