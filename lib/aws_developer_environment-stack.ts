@@ -347,7 +347,7 @@ reboot
       statistic: "Sum",
       comparisonOperator: "LessThanThreshold",
       evaluationPeriods: 1,
-      threshold: 1200000,
+      threshold: 1500000,
       treatMissingData: "breaching",
       dimensions: [{
         name: "InstanceId",
