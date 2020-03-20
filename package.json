@@ -5,7 +5,7 @@
     "aws_developer_environment": "bin/aws_developer_environment.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cdk synth --out ./cdk.out",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
