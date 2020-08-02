@@ -138,7 +138,7 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
           VERSION: '1',
           SCRIPT: `#!/bin/bash
 yum update -y
-yum install zsh openssl-devel amazon-efs-utils nfs-utils -y
+yum install zsh openssl-devel amazon-efs-utils nfs-utils openssl-libs compat-openssl10 krb5-libs zlib libicu libsecret gnome-keyring desktop-file-utils xorg-x11-utils -y
 yum group install "Development Tools" -y
 amazon-linux-extras install docker
 systemctl enable docker
@@ -168,13 +168,22 @@ plugins=(
     zsh-autosuggestions
 )
 source /home/ec2-user/.oh-my-zsh/oh-my-zsh.sh
-export CDK_DEFAULT_ACCOUNT=${cdk.Aws.ACCOUNT_ID}
-export CDK_DEFAULT_REGION=${cdk.Aws.REGION}
 EOT
 sudo -u ec2-user sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 sudo -u ec2-user echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/ec2-user/.zshrc
 sudo -u ec2-user /home/linuxbrew/.linuxbrew/bin/brew tap aws/tap
 sudo -u ec2-user /home/linuxbrew/.linuxbrew/bin/brew install aws-sam-cli
+sudo -u ec2-user git config --global core.editor "code --wait"
+sudo -u ec2-user git config --global diff.tool "default-difftool"
+sudo -u ec2-user git config --global difftool.default-difftool.cmd "code --wait --diff \$LOCAL \$REMOTE"
+echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
+sudo -u ec2-user touch /home/ec2-user/.aws/credentials
+
+sudo -u ec2-user cat <<EOT >> /home/ec2-user/.aws/config
+[default]
+output = json
+region = ${cdk.Aws.REGION}
+EOT
 `
       }
     })
@@ -207,6 +216,11 @@ sudo -u ec2-user echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /hom
 sudo -u ec2-user echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> /home/ec2-user/.zshrc
 . /home/ec2-user/.nvm/nvm.sh
 nvm install ${nodeVersion.valueAsString}
+npm install -g aws-cdk
+npm install -g @aws-amplify/cli
+sudo chown ec2-user /home/ec2-user/.nvm -R
+sudo -u ec2-user echo 'export CDK_DEFAULT_ACCOUNT=${cdk.Aws.ACCOUNT_ID}' >> /home/ec2-user/.zshrc
+sudo -u ec2-user echo 'export CDK_DEFAULT_REGION=${cdk.Aws.REGION}' >> /home/ec2-user/.zshrc
 
 `
       }
@@ -276,6 +290,7 @@ ${pythonInstall.getAttString('userData')}
 ${dotnetInstall.getAttString('userData')}
 ${powershellInstall.getAttString('userData')}
 ${efsInstall.getAttString('userData')}
+chown ec2-user /home/ec2-user/.zshrc
 /opt/aws/bin/cfn-signal -e $? --stack ${cdk.Aws.STACK_NAME} --resource DevInstance --region ${cdk.Aws.REGION}
 reboot
 `
@@ -306,6 +321,16 @@ reboot
       keyName: keypair.valueAsString,
       userData: cdk.Fn.base64(userDataFull),
       iamInstanceProfile: devInstanceProfile.ref,
+      monitoring: true,
+      blockDeviceMappings: [
+        {
+          deviceName: '/dev/xvda',
+          ebs: {
+            volumeType: ec2.EbsDeviceVolumeType.GP2,
+            volumeSize: 20
+          }
+        }
+      ],
       tags: [
         {key: 'Name', value: cdk.Aws.STACK_NAME }
       ]
