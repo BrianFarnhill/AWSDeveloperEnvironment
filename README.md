@@ -17,27 +17,33 @@ template includes the following features:
    allows the instance to be deployed to a private subnet (internet connectivity is required
    to install packages and components however)
 
+## Dependencies
+
+This project uses the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the dev instnace. It
+is installed with the dependencies for the project. To install everything needed run:
+
+```
+npm install
+```
+
 ## Deploying the template
-
-### Via the console
-
-Download the template file `AwsDeveloperEnvironmentStack.template.json` from the cdk.out
-directory in this repository, and [upload this when creating a new CloudFormation
-stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html). 
 
 ### Via the cli
 
-To deploy the template using the AWS CLI, execute the following command, substituting in the
-appropriate variables:
+First you must set three environment variables to suit your parameters for keypair name, AWS
+account number and region name.
 
 ```
-aws cloudformation create-stack --stack-name "DevEnvironment3" 
-                                --template-body file://./cdk.out/AwsDeveloperEnvironmentStack.template.json 
-                                --parameters ParameterKey=VPCId,ParameterValue=[VPC ID] 
-                                             ParameterKey=SubnetId,ParameterValue=[Subnet ID] 
-                                             ParameterKey=Keyname,ParameterValue=[Key name] 
-                                --region ap-southeast-2
-                                --capabilities CAPABILITY_IAM
+export KEYPAIR_NAME="KeyPairName"
+export CDK_DEFAULT_ACCOUNT="123456789012"
+export CDK_DEFAULT_REGION="region-name"
+```
+
+Then you can build and deploy the solution with these commands.
+
+```
+npm run build
+npm run deploy
 ```
 
 ## Connecting from Visual Studio Code
