@@ -47,6 +47,7 @@ sudo -u ec2-user git config --global core.editor "code --wait"
 sudo -u ec2-user git config --global diff.tool "default-difftool"
 sudo -u ec2-user git config --global difftool.default-difftool.cmd "code --wait --diff \$LOCAL \$REMOTE"
 echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
+sudo -u ec2-user mkdir /home/ec2-user/.aws
 sudo -u ec2-user touch /home/ec2-user/.aws/credentials
 
 sudo -u ec2-user cat <<EOT >> /home/ec2-user/.aws/config
