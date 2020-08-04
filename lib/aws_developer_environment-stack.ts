@@ -82,20 +82,6 @@ export class AwsDeveloperEnvironmentStack extends cdk.Stack {
       `echo 'LABEL=repos     ${mountPath}    ext4    defaults        0       0' >> /etc/fstab`
     )
 
-//     const efsInstall = new cfn.CustomResource(this, `BuildUserData-EfsInstall`, {
-//       provider: cfn.CustomResourceProvider.lambda(userDataFunction),
-//       properties: {
-//           VERSION: '`',
-//           SCRIPT: `
-// sudo -u ec2-user mkdir /home/ec2-user/repos
-// echo '${repoShare.ref}.efs.${cdk.Aws.REGION}.amazonaws.com:/  /home/ec2-user/repos    nfs     nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport     0       0' >> /etc/fstab
-// mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${repoShare.ref}.efs.${cdk.Aws.REGION}.amazonaws.com:/ /home/ec2-user/repos
-// chown ec2-user /home/ec2-user/repos
-   
-// `
-//       }
-//     })
-
     const powerOffFunction = new lambda.Function(this, "PowerOffFunction", {
       code: lambda.Code.fromInline(fs.readFileSync("./lib/poweroff.js").toString()),
       handler: 'index.handler',
