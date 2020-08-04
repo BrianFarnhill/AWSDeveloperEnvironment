@@ -5,10 +5,10 @@
     "aws_developer_environment": "bin/aws_developer_environment.js"
   },
   "scripts": {
-    "build": "tsc && cdk synth --out ./cdk.out",
+    "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "deploy": "cdk deploy"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.56.0",
@@ -22,9 +22,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-cloudformation": "^1.56.0",
     "@aws-cdk/aws-cloudwatch": "^1.56.0",
-    "@aws-cdk/aws-efs": "^1.56.0",
     "@aws-cdk/aws-iam": "^1.56.0",
     "@aws-cdk/aws-lambda": "^1.56.0",
     "@aws-cdk/aws-sns": "^1.56.0",
