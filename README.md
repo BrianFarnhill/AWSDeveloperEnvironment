@@ -8,14 +8,14 @@ template includes the following features:
  * The instance will automatically power off when there is low network activity for an hour
    to optimise cost. (Power on can be automated when SSH connections are initiated, see the
    section below for instructions)
- * Common languages and tools are installed by default. Versions can be selected through
-   template parameters, and tools can be excluded through parameters also
+ * Common languages and tools are installed by default. (See `lib/software` path for specifics)
  * An IAM instance role is created to control what AWS services can be invoked from the
    developer instance
  * Connectivity via SSH is handled using the Session Manager function inside AWS Systems
-   Manager, ensuring that the instance is never exposed to the internet directly. This also
-   allows the instance to be deployed to a private subnet (internet connectivity is required
-   to install packages and components however)
+   Manager, ensuring that the instance is never exposed to the internet directly.
+ * The instance is deployed in to a new VPC, with a public and private subnet. This helps
+   ensure that no direct connectivity can be made to the instance, but it will have internet
+   connectivity via a NAT gateway
 
 ## Dependencies
 
@@ -26,23 +26,22 @@ is installed with the dependencies for the project. To install everything needed
 npm install
 ```
 
+Next you must export an environment variable for the keypair name. This will be assigned to the 
+EC2 instance that is created.
+
+```
+export KEYPAIR_NAME="KeyPairName"
+```
+
+Then you can build and deploy the solution with these commands.
 ## Deploying the template
 
 ### Via the cli
 
-First you must set three environment variables to suit your parameters for keypair name, AWS
-account number and region name.
+You can build and deploy the solution with the deploy command. This will do a full build first
+before deployment. 
 
 ```
-export KEYPAIR_NAME="KeyPairName"
-export CDK_DEFAULT_ACCOUNT="123456789012"
-export CDK_DEFAULT_REGION="region-name"
-```
-
-Then you can build and deploy the solution with these commands.
-
-```
-npm run build
 npm run deploy
 ```
 
