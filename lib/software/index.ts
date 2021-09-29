@@ -12,6 +12,7 @@ import Powershell from './powershell';
 import Python from './python';
 import Ruby from './ruby';
 import Sam from './sam';
+import VSCodeServer from './vscode-server';
 import ZShell from './zshell';
 
 export interface BatchCommands {
@@ -41,6 +42,7 @@ export default class extends Construct {
         Dotnet,
         Powershell,
         AwsTools,
+        VSCodeServer,
     ];
 
     props.Instance.userData.addCommands(...software.map((s) => s.commands));

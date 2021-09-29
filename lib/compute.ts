@@ -26,7 +26,7 @@ export default class extends Construct {
       storage: ec2.AmazonLinuxStorage.EBS,
       virtualization: ec2.AmazonLinuxVirt.HVM
     });
-
+    
     this.Instance = new ec2.Instance(this, "DevInstance", {
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.XLARGE),
       machineImage: amazonLinuxImage,

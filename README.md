@@ -27,7 +27,9 @@ npm install
 ```
 
 Next you must export an environment variable for the keypair name. This will be assigned to the 
-EC2 instance that is created.
+EC2 instance that is created. If you do not provide a keypair you will not be able to SSH to
+this instance via a local install of VS Code (method 2 below), and you will only be able to use
+the web based version that is installed.
 
 ```
 export KEYPAIR_NAME="KeyPairName"
@@ -45,9 +47,30 @@ before deployment.
 npm run deploy
 ```
 
-## Connecting from Visual Studio Code
+## Running Visual Studio Code
+### Method 1: Connecting to Visaul Studio Code (Web Browser)
 
-To add the instance to Visual Studio Code:
+This instance includes a web based version of VS Code (powered by [OpenVSCode-Server](https://github.com/gitpod-io/openvscode-server)).
+As the instance itself sits in a private network, this can be access via port forward that can
+be established via Session Manager. The server operates on port 3000 by default, so the below
+command will create the port forward connection. 
+
+```
+aws ssm start-session --target i-12345678901234567 --document-name AWS-StartPortForwardingSession --parameters '{"portNumber":["3000"], "localPortNumber":["3000"]}'
+```
+
+While this command stays active you can access the web based version of VS code at
+[http://localhost:3000](http://localhost:3000). This does not need any local installation of
+VSCode to operate. Note: You will need to connect from a compute instance that can run the 
+Session Manager CLI plugin (e.g. a Windows/MacOS/Linux machine) to enable the port forward
+to be configured. Machines such as iPads and others won't be able to connect to this instance
+via a browser unless the HTTP port is made accessible to the internet (which you should secure
+appropriately, especially as this instance will have permissions to run the AWS CLI against your
+account, and the default configuration of this package includes admin rights for this purpose).
+
+### Method 2: Connecting from Visual Studio Code (Locally installed IDE)
+
+If you wish to use a local installation of VS Code, add this instance as a SSH target.
 
 1. Select the "Remote Explorer" tab in Visual Studio Code, and select "SSH targets" from the
    drop down
@@ -88,8 +111,17 @@ Ensure that the local AWS profile has permissions to run ssm:startSession.
 
 As the EC2 instance in the template is programmed to turn off after a period of network activity,
 programming a script to power on the instance before you connect will ensure it is running when
-you need it. To run the instance start command, change the ProxyCommand line from above to include
-a call to the start-instances API.
+you need it. 
+
+Using method 1 above, you should simply run the start instance command before starting the port
+forwarding session.
+
+```
+aws ec2 start-instances --instance-ids i-12345678901234567
+```
+
+Using method 2 above, you can run the instance start command by changing the ProxyCommand line 
+from above to include a call to the start-instances API.
 
 __Windows__
 ```
