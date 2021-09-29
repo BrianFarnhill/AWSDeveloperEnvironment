@@ -28,7 +28,7 @@ export default class extends Construct {
     });
 
     this.Instance = new ec2.Instance(this, "DevInstance", {
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.C5, ec2.InstanceSize.LARGE),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.XLARGE),
       machineImage: amazonLinuxImage,
       vpc: props.Vpc,
       blockDevices: [
