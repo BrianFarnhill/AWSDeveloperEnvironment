@@ -1,44 +1,36 @@
 import {
-  Aws, 
+  Aws, Duration,
   aws_cloudwatch as cloudwatch,
-  aws_lambda as lambda,
-  aws_sns as sns,
-  aws_sns_subscriptions as subscriptions,
+  aws_cloudwatch_actions as actions,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
 interface PowerOffAlarmProps {
   InstanceId: string,
-  LambdaFunction: lambda.Function;
 }
 
 export default class extends Construct {
 
   constructor(scope: Construct, id: string, props: PowerOffAlarmProps) {
     super(scope, id);
-
-    const inactiveTopic = new sns.Topic(this, "PowerOffTopic", {});
-    inactiveTopic.addSubscription(new subscriptions.LambdaSubscription(props.LambdaFunction));
-
-    new cloudwatch.CfnAlarm(this, "NetworkInactiveAlarm", {
+    
+    const alarm = new cloudwatch.Alarm(this, "NetworkInactiveAlarm", {
       alarmName: `${Aws.STACK_NAME}-TrafficInactive`,
-      metricName: 'NetworkOut',
-      namespace: 'AWS/EC2',
-      period: 3600,
-      statistic: "Sum",
-      comparisonOperator: "LessThanThreshold",
+      metric: new cloudwatch.Metric({
+        metricName: 'NetworkOut',
+        namespace: 'AWS/EC2',
+        period: Duration.hours(1),
+        statistic: cloudwatch.Statistic.SUM,
+        dimensionsMap: {
+          InstanceId: props.InstanceId,
+        },
+      }),
       evaluationPeriods: 1,
       threshold: 1500000,
-      treatMissingData: "breaching",
-      dimensions: [{
-        name: "InstanceId",
-        value: props.InstanceId,
-      }],
-      alarmActions: [
-        inactiveTopic.topicArn,
-      ],
+      comparisonOperator: cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.BREACHING,
     });
-    
+    alarm.addAlarmAction(new actions.Ec2Action(actions.Ec2InstanceAction.STOP))
   }
 }

@@ -4,7 +4,7 @@ import {
 import { Construct } from 'constructs';
 import Compute from './compute';
 import Networking from './networking';
-import PoweroffFunction from './poweroff_function';
+import PoweroffAlarm from './poweroff_alarm';
 
 export class DevEnvStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -12,6 +12,6 @@ export class DevEnvStack extends Stack {
 
     const network = new Networking(this, 'networking');
     const compute = new Compute(this, 'compute', { Vpc: network.Vpc });
-    new PoweroffFunction(this, 'powerofffunc', { InstanceId: compute.Instance.instanceId });
+    new PoweroffAlarm(this, 'poweroff', { InstanceId: compute.Instance.instanceId });
   }
 }
