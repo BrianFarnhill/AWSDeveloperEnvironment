@@ -9,6 +9,7 @@ import Dotnet from './dotnet';
 import GitConfig from './gitconfig';
 import Node from './node';
 import Powershell from './powershell';
+import Python from './python';
 import Ruby from './ruby';
 import Sam from './sam';
 import ZShell from './zshell';
@@ -36,6 +37,7 @@ export default class extends Construct {
         AwsCli,
         Ruby,
         Node,
+        Python,
         Dotnet,
         Powershell,
         AwsTools,
