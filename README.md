@@ -156,7 +156,6 @@ considered to add additional security to developer environments:
 
  * Change the IAM role 'DevInstanceRole' to have only the permissions that developers require. Also
    make use of [permissions boundaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
- * Consider the need to add KMS encryptions to the EFS share and EBS volumes of the EC2 instance
  * Consider using a custom AMI that includes hardened configurations for Amazon Linux 2
 
 ## What's included in the instance?
