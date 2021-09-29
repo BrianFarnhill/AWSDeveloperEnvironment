@@ -47,6 +47,14 @@ before deployment.
 npm run deploy
 ```
 
+## Configure session manager run as account 
+
+The scripts in this instance assume you will connect to the instance as `ec2-user`. To allow
+this, you must configure one of the options for run as account names. See 
+[Turn on run as support for Linux and macOS instances](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-preferences-run-as.html)
+for instructions on how to do this. 
+
+
 ## Running Visual Studio Code
 ### Method 1: Connecting to Visaul Studio Code (Web Browser)
 
