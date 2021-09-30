@@ -15,7 +15,6 @@ sudo -u ec2-user mkdir "$(/home/ec2-user/.rbenv/bin/rbenv root)"/plugins
 sudo -u ec2-user git clone https://github.com/rbenv/ruby-build.git "$(sudo -u ec2-user /home/ec2-user/.rbenv/bin/rbenv root)"/plugins/ruby-build
 sudo -u ec2-user ./.rbenv/bin/rbenv install ${rubyVersion}
 sudo -u ec2-user ./.rbenv/bin/rbenv global ${rubyVersion}
-sudo -u ec2-user echo 'eval "$(rbenv init -)"' >> /home/ec2-user/.zshrc
 
 `,
 } as BatchCommands;

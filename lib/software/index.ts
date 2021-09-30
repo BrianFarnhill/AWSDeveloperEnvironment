@@ -1,4 +1,5 @@
 import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { Asset } from 'aws-cdk-lib/lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import AwsCli from './awscli';
 import AwsTools from './awstools';
@@ -14,9 +15,13 @@ import Ruby from './ruby';
 import Sam from './sam';
 import VSCodeServer from './vscode-server';
 import ZShell from './zshell';
+import * as path from 'path';
 
 export interface BatchCommands {
     commands: string,
+    fileMap?: {
+      [LocalPath: string]: string,
+    },
 }
 
 interface SoftwareProps {
@@ -46,5 +51,25 @@ export default class extends Construct {
     ];
 
     props.Instance.userData.addCommands(...software.map((s) => s.commands));
+
+    let fileCount = 0;
+    software.forEach((s) => {
+      const fileMap = s.fileMap || {};
+      const localFiles = Object.keys(fileMap);
+
+      localFiles.forEach((localPath: string) => {
+        const asset = new Asset(this, `File${fileCount}`, {
+          path: path.resolve(__dirname, localPath),
+        });
+        props.Instance.userData.addS3DownloadCommand({
+          bucket: asset.bucket,
+          bucketKey: asset.s3ObjectKey,
+          localFile: fileMap[localPath],
+        });
+        fileCount += 1;
+      });
+    });
+
+    props.Instance.userData.addCommands('chown -R ec2-user /home/ec2-user/')
   }
 }
