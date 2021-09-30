@@ -6,6 +6,9 @@ import { BatchCommands } from './index';
 const vscodeServerVersion = '1.60.2'; // Versions from https://github.com/gitpod-io/openvscode-server/releases 
 
 export default {
+    fileMap: {
+        'vscode-server/settings.json': '/home/ec2-user/.opencode-server/Machine/settings.json',
+    },
     commands: `
 
 sudo -u ec2-user wget https://github.com/gitpod-io/openvscode-server/releases/download/openvscode-server-v${vscodeServerVersion}/openvscode-server-v${vscodeServerVersion}-linux-x64.tar.gz -O code-server.tar.gz
@@ -34,6 +37,9 @@ EOT
 systemctl daemon-reload
 systemctl enable vscode-server.service
 systemctl restart vscode-server.service
+
+mkdir -p $(dirname '/home/ec2-user/.opencode-server/Machine/settings.json')
+chown ec2-user /home/ec2-user/.opencode-server/Machine/settings.json
 
 `,
 } as BatchCommands;
