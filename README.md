@@ -36,6 +36,26 @@ export KEYPAIR_NAME="KeyPairName"
 ```
 
 Then you can build and deploy the solution with these commands.
+
+### AWS CLI and Session Manager plugin
+
+To connect to this instance after it is provisioned, you need the AWS CLI with the Session Manager
+plugin installed. Review these links and install versions appropriate to your platform.
+
+* [Installing, updating, and uninstalling the AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+* [Install the Session Manager plugin for the AWS CLI - AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
+
+### AWS CDK Bootstrapping
+
+As this template is deployed via the AWS CDK, you need to ensure the account/region you are 
+deploying too has the latest version of the bootstrap installed. To perform this, run this
+command from the directory this repo is stored, substituting in the AWS account ID and region
+you are deploying to.
+
+```
+npx cdk bootstrap aws://[ACCOUNT ID]/[REGION]
+```
+
 ## Deploying the template
 
 ### Via the cli
