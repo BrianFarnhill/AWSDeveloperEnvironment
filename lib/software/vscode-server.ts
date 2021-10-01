@@ -39,7 +39,6 @@ systemctl enable vscode-server.service
 systemctl restart vscode-server.service
 
 mkdir -p $(dirname '/home/ec2-user/.opencode-server/Machine/settings.json')
-chown ec2-user /home/ec2-user/.opencode-server/Machine/settings.json
 
 `,
 } as BatchCommands;
