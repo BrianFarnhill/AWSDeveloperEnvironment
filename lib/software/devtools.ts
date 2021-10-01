@@ -7,7 +7,7 @@ export default {
     commands: `
 
 yum update -y
-yum install zsh openssl-devel amazon-efs-utils nfs-utils openssl-libs compat-openssl10 krb5-libs zlib libicu libsecret gnome-keyring desktop-file-utils xorg-x11-utils -y
+yum install zsh openssl-devel amazon-efs-utils nfs-utils openssl-libs compat-openssl10 krb5-libs zlib libicu libsecret gnome-keyring desktop-file-utils xorg-x11-utils libffi-devel -y
 yum group install "Development Tools" -y
 echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.conf
 

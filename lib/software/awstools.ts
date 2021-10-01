@@ -10,7 +10,7 @@ export default {
     commands: `
 
 sudo -u ec2-user /usr/bin/zsh -i -c "npm install -g aws-cdk@next @aws-amplify/cli"
-sudo -u ec2-user /usr/bin/zsh -i -c "pip3 install git-remote-codecommit"
+sudo -u ec2-user /usr/bin/zsh -i -c "/home/ec2-user/.pyenv/shims/pip3 install git-remote-codecommit"
 
 `,
 } as BatchCommands;
