@@ -1,0 +1,15 @@
+code --install-extension amazonwebservices.aws-toolkit-vscode
+code --install-extension muhammad-sammy.csharp
+code --install-extension ms-azuretools.vscode-docker
+code --install-extension eamodio.gitlens
+code --install-extension graphql.vscode-graphql
+code --install-extension ms-toolsai.jupyter
+code --install-extension eg2.vscode-npm-script
+code --install-extension christian-kohler.npm-intellisense
+code --install-extension panekj.powershell
+code --install-extension ms-python.python
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension wayou.vscode-todo-highlight
+code --install-extension davidanson.vscode-markdownlint
+code --install-extension github.vscode-pull-request-github
+code --install-extension hediet.vscode-drawio

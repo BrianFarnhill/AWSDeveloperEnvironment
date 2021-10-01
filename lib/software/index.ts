@@ -66,6 +66,11 @@ export default class extends Construct {
           bucketKey: asset.s3ObjectKey,
           localFile: fileMap[localPath],
         });
+
+        if (localPath.endsWith('.sh')) {
+          props.Instance.userData.addCommands(`chmod +x ${localPath}`);
+        }
+
         fileCount += 1;
       });
     });

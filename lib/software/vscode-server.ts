@@ -8,6 +8,7 @@ const vscodeServerVersion = '1.60.2'; // Versions from https://github.com/gitpod
 export default {
     fileMap: {
         'vscode-server/settings.json': '/home/ec2-user/.opencode-server/Machine/settings.json',
+        'vscode-server/install-extensions.sh': '/home/ec2-user/.opencode-server/install-extensions.sh',
     },
     commands: `
 

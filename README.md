@@ -106,6 +106,17 @@ via a browser unless the HTTP port is made accessible to the internet (which you
 appropriately, especially as this instance will have permissions to run the AWS CLI against your
 account, and the default configuration of this package includes admin rights for this purpose).
 
+### Installing VS Code Extensions
+
+To speed up the process of installing common extensions (based purely on my own usage and relating
+to the langauges and tools installed in this image) a script is deployed to the remote instance
+in the OpenVSCode diretory. To install these extensions run the following command the first time
+you connect to the web broser instance (in ther terminal window).
+
+``` bash
+~/.opencode-server/install-extensions.sh
+```
+
 ### Method 2: Connecting from Visual Studio Code (Locally installed IDE)
 
 If you wish to use a local installation of VS Code, add this instance as a SSH target.
