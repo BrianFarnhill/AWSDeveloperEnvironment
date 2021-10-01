@@ -9,6 +9,7 @@ export default {
 sudo -u ec2-user git config --global core.editor "code --wait"
 sudo -u ec2-user git config --global diff.tool "default-difftool"
 sudo -u ec2-user git config --global difftool.default-difftool.cmd "code --wait --diff \$LOCAL \$REMOTE"
+sudo -u ec2-user git config --global credential.helper store
 
 `,
 } as BatchCommands;
