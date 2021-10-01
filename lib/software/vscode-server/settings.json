@@ -1,4 +1,5 @@
 {
     "terminal.integrated.fontFamily": "'MesloLGS NF', 'fontawesome'",
-    "terminal.integrated.fontSize": 16
+    "terminal.integrated.fontSize": 16,
+    "workbench.startupEditor": "none"
 }
