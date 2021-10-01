@@ -76,10 +76,11 @@ for instructions on how to do this.
 
 ### (Optional) Install fonts used in default terminal configuration
 
-If you are planning to use the web browser based verison of VS Code, the config that is pushed
-specifies that it will use the Meslo font family (as recommeneded by the PowerLevel10k them in
-zsh). It's recommended to install and use that font on the machine you will run your web browser
-from.
+The default configuration of this instance uses [PowerLevel10k](https://github.com/romkatv/powerlevel10k)
+as the theme for ZShell. The recommended font family for this is Meslo, and this  is also
+configured to be the default font used by the terminal in the web hosted VSCode installation. 
+It's recommended to install and use that font with this deployment regardless of how you plan
+to connect to VSCode.
 
 [Installing Meslo font for PowerLevel10k](https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k)
 
