@@ -131,5 +131,12 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+loadEnv() {
+  if [ -f .env ]; then
+      # Load Environment Variables
+      export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
+  fi
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
