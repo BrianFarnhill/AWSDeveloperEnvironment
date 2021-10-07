@@ -171,6 +171,27 @@ forwarding session.
 aws ec2 start-instances --instance-ids i-12345678901234567
 ```
 
+You might also consider a script that powers the instance on if it needs it, as well as logging
+yourself in if needed, and directly opening the SSM port forward session. An example of this
+type of script is below. It assumes the environment variable `DEV_INSTANCE` is set to the ID
+of your instance.
+
+```bash
+aws sts get-caller-identity > /dev/null
+if [ $? -gt 0 ]
+then
+aws sso login
+fi
+STATUS="$(aws ec2 describe-instance-status --include-all-instances --instance-ids $DEV_INSTANCE --query 'InstanceStatuses[*].InstanceState.Name' --output text)"
+if [ $STATUS = "stopped" ]
+then
+echo "Powering on EC2 instance..."
+aws ec2 start-instances --instance-ids $DEV_INSTANCE > /dev/null
+aws ec2 wait instance-status-ok --instance-ids $DEV_INSTANCE > /dev/null
+fi
+aws ssm start-session --target $DEV_INSTANCE --document-name AWS-StartPortForwardingSession --parameters '{"portNumber":["3000"], "localPortNumber":["3000"]}'
+```
+
 Using method 2 above, you can run the instance start command by changing the ProxyCommand line
 from above to include a call to the start-instances API.
 
