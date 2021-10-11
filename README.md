@@ -176,6 +176,24 @@ yourself in if needed, and directly opening the SSM port forward session. An exa
 type of script is below. It assumes the environment variable `DEV_INSTANCE` is set to the ID
 of your instance.
 
+Windows example:
+
+```bash
+aws sts get-caller-identity | Out-Null
+if ($? -eq $false) {
+    aws sso login
+}
+$STATUS="$(aws ec2 describe-instance-status --include-all-instances --instance-ids $DEV_INSTANCE --query 'InstanceStatuses[*].InstanceState.Name' --output text)"
+if ($STATUS -eq "stopped") {
+    aws ec2 start-instances --instance-ids $DEV_INSTANCE | Out-Null 
+    aws ec2 wait instance-status-ok --instance-ids $DEV_INSTANCE | Out-Null
+}
+aws ssm start-session --target $DEV_INSTANCE --document-name AWS-StartPortForwardingSession --parameters '{""portNumber"":[""3000""], ""localPortNumber"":[""3000""]}'
+
+```
+
+Linux example:
+
 ```bash
 aws sts get-caller-identity > /dev/null
 if [ $? -gt 0 ]
