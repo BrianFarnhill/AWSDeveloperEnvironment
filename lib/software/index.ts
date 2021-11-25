@@ -15,6 +15,7 @@ import Ruby from './ruby';
 import Sam from './sam';
 import VSCodeServer from './vscode-server';
 import ZShell from './zshell';
+import GitSecrets from './gitsecrets';
 import * as path from 'path';
 
 export interface BatchCommands {
@@ -48,6 +49,7 @@ export default class extends Construct {
         Powershell,
         AwsTools,
         VSCodeServer,
+        GitSecrets,
     ];
 
     props.Instance.userData.addCommands(...software.map((s) => s.commands));
