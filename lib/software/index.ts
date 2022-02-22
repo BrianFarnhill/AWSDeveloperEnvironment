@@ -1,5 +1,5 @@
 import { aws_ec2 as ec2 } from 'aws-cdk-lib';
-import { Asset } from 'aws-cdk-lib/lib/aws-s3-assets';
+import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import AwsCli from './awscli';
 import AwsTools from './awstools';

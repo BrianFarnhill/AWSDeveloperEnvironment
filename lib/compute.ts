@@ -5,7 +5,7 @@ import {
   custom_resources as cr,
   Aws,
 } from 'aws-cdk-lib';
-import { BlockDeviceVolume, EbsDeviceVolumeType } from 'aws-cdk-lib/lib/aws-ec2';
+import { BlockDeviceVolume, EbsDeviceVolumeType } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 import Software from './software';
 
